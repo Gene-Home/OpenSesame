@@ -1,0 +1,84 @@
+<html>
+    <body>
+    <image src="assets/img/openSESAME_home_page_figure.jpg">
+ 
+<h1>An introduction to openSESAME</h1>
+
+    <ul>
+        <li><b>How openSESAME works</b></li>
+        <li ><b>a.</b> Raw CEL files are normalized to obtain gene-level expression measurements.
+            Here, red and blue indicate genes with high or low levels of absolute expression, respectively.
+        </li>
+        <li>
+            <b>b.</b> Within each experiment, expression measurements for each gene are z-score
+            normalized to produce relative expression levels.  Here, red and blue indicate high or
+            low expression relative to the other samples in the experiment.
+        </li>
+        <li>
+            <b>c.</b> Relative expression levels for all experiments are concatenated into a single file.
+        </li>
+        <li>
+            <b>d.</b> For each sample in each experiment, a Wilcoxon rank-sum test is performed
+        between the relative expression values of the "up" and "down" gene sets defined by
+        the query signature, yielding a signature association (SA) score that can be strongly
+        positive (yellow), strongly negative (magenta), or intermediate (black).
+        Samples with strong positive or negative SA scores exhibit the same or
+        opposite pattern of coordinate differential gene expression, respectively,
+        as the query signature.
+        </li>
+        <li>
+            <b>e.</b> Fisher exact and K-S tests are performed on each experiment to
+            determine whether it is significantly enriched in samples with positive or
+            negative SA scores.  In experiments with significant enrichment, the query signature
+            is likely to be perturbed, and this perturbation may be correlated with an experimental
+            condition or a biological phenotype.
+        </li>
+
+    </ul>
+<ul>
+    <li><b>Submitting a query</b></li>
+
+    <li>An openSESAME query requires a gene expression signature comprised of two
+        sets of gene identifiers: "up" and "down" genes (which are coordinately induced
+        and repressed, respectively, in some experiment).  These identifiers can be gene
+        symbols, Affymetrix probesets, or Entrez Gene or RefSeq IDs.  All identifiers
+        should be of the same type.
+    </li>
+    <li>To enter a query signature, first give the query a name, and then type or paste
+        the "up" and "down" identifiers into the corresponding boxes.  openSESAME will
+        then report how many input identifiers it was able to translate to Entrez Gene IDs.
+    </li>
+
+    <li>Once the query is submitted, it will take up to several minutes for the results
+        to appear on the openSESAME web server.  You will receive a message from openSESAME
+        at your registered email address when the query is complete.
+    </li>
+
+</ul>
+<ul>
+    <li><b>Viewing query results</b></li>
+
+    <li>When a query is complete, clicking the VIEW QUERY RESULTS tab will
+        provide links to two types of results: enrichment significance tests
+        (nominal p values and FDR q values) and heat maps.
+    </li>
+
+    <li>Clicking the View link will bring up a table with all GEO series IDs,
+        their titles, and their associated K-S and Fisher p and q values, sorted
+        in ascending order by K-S q value.
+    </li>
+
+    <li>Clicking the heat map link will automatically download a PDF file that
+        contains individual heatmaps (one per page) of all GEO series with
+        no more than 300 samples and with K-S or Fisher q values less than 0.25.
+        The genes (rows) are clustered within the "up" and "down" gene sets
+        and each sample (column) is annotated with its GEO sample (GSM) ID
+        and a color bar indicating its SA score (yellow = SA score of 3 or
+        higher; magenta = SA score of -3 or lower; black = SA score of zero).
+    </li>
+
+</ul>
+        
+    </body>
+
+</html>

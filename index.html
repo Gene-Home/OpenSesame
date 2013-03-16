@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+         /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+    </style>
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">open SESAME</a>
+	  <div id="navbar">
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+		<li><a href="#newUser">Signup</a></li>
+		<li><a href="#login">Login</a></li>
+		<li><a href="#sendReset">Forgot Password</a></li>
+              </ul>
+	     
+            </div><!--/.nav-collapse -->
+	  </div><!-- end navbar div -->
+        </div>
+      </div>
+    </div>
+    <div id="resetPassword">
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+	<div class="span3">
+	  <div class="well sidebar-nav" id="sidebar" style = "display:none">
+            <ul class="nav nav-list">
+              <li><a href="#showHome">Home</a></li>
+              <li><a href="#newGeneSig" id="newGeneSig">New Query</a></li>
+              <li><a href="#jobRuns" id="jobRuns">Query Results</a></li>
+              
+            </ul>
+          </div>
+	</div>
+	<div class="span9">
+	  <div id="main-area">
+	    <div class="hero-unit" >
+              <p>
+		openSESAME (Search of Expression Signatures Across Many Experiments) is a tool 
+		for using patterns of gene expression to discover relationships between experimental 
+		conditions, diseases, or biological states. openSESAME is unique in that it identifies 
+		connections between datasets based on expression patterns alone, without the need for 
+		prior knowledge of experimental groups or phenotypes.
+	      </p>
+              <p>
+        	This web server is an interface to allow the scientific community to perform openSESAME 
+        	queries using a repository of over 75,000 Affymetrix human gene expression profiles obtained 
+        	from the Gene Expression Omnibus (GEO) at the National Center for Biotechnology Information (NCBI). 
+        	A gene expression signature (sets of genes that are expected to be coordinately induced or repressed) 
+        	is used as input. openSESAME will then return a list of datasets in which these genes are 
+        	coordinately differentially expressed, as well as plots (heat maps) of the expression of the 
+        	signature genes in these datasets. A more detailed description of how to perform and interpret an 
+        	openSESAME query is available after logging in.
+            </p>
+	      
+	    </div>
+	  </div>
+	  <div id="jobs">
+	  </div>
+      
+	  <div class="jumbotron" id="logos">
+       	    <a class="btn btn-large btn-success" href="#newUser">Sign Up for openSESAME</a>
+	    <hr>
+	    <img src="assets/img/logo/bu_logo.png">&nbsp;&nbsp;
+	    <img src="assets/img/logo/pulm_logo.png">&nbsp;&nbsp;
+          </div>
+	 
+	</div>
+      </div>
+    </div> <!-- /container -->
+    <!-- Templates -->
+    <!-- Series Result Table Head -->
+    <script type="text/template" id="tpl-seriesResult-table">
+      <h3>Results for:</h3><h2> <%= title %></h2>
+      <table class="table table-striped" border='1'>
+	<thead>
+	  <tr>
+	    <th><a href="#" id="bySeriesID">Series ID </a></th>
+	    <th><a href="#" id="bySeriesTitle">Series Title</a></th>
+	    <th><a href="#" id="byKSp">KS p</a></th>
+	    <th><a href="#" id="byKSq">KS q</a></th>
+	    <th><a href="#" id="byFisherp">Fisher p</a></th>
+	    <th><a href="#" id="byFisherq">Fisher q</a></th>
+	  </tr>
+	</thead>
+	<tbody>
+	  
+	 <% _.each(resArray,function(x,y,z){ %>
+	  <tr>
+	    <td> <%= x["Series ID"] %> </td>
+	    <td> <%= x["Series Title"] %> </td>
+	    <td> <%= x["KS p"] %> </td>
+	    <td> <%= x["KS q"] %> </td>
+	    <td> <%= x["Fisher p"] %> </td>
+	    <td> <%= x["Fisher q"] %> </td>
+	  </tr>
+	 <% }); %>
+	</tbody>
+      </table>
+    </script>
+    <!-- Series Resutl Table Body -->
+    <script type="text/template" id="tpl-seriesResult-row">
+        <td><%= Series ID %></td>
+        <td><%= Serise Title %></td>
+	<td><%= KS p %></td>
+	<td><%= KS q %></td>
+	<td><%= Fisher p %></td>
+	<td><%= Fisher q %></td>
+	
+    </script>
+    <script type="text/template" id="tpl-jobRun-table">
+      <table class="table " border='1'>
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Started</th>
+	    <th>Status</th>
+	    <th>Heat Map (PDF)</th>
+	    <th>Series Results (csv)</th>
+	    <th>Signature (.txt)</th>
+	    <th>Validation (.txt) </th>
+	  </tr>
+	</thead>
+	<tbody>
+	  
+	</tbody>
+      </table>
+    </script>
+    <script type="text/template" id="tpl-jobRun-row">
+        <td><%= inputs["name"] %></td>
+        <td><%= creationDatetime %></td>
+	<td><%= status %></td>
+	<td>
+	<% if (outputs.heatmapsPDF) { %>
+           <a href='api/v2/WorkFileContents/<%= outputs.heatmapsPDF[0] %>/deft.pdf'>PDF</a>
+	<% }else{ %>
+	no file
+	<% } %>
+	</td>
+        <td>
+	  <% if (outputs.tableTSV) { %>
+           <a href='api/v2/WorkFileContents/<%= outputs.tableTSV[0] %>/oFile.csv'>link</a>
+	<% }else{ %>
+	no file
+	<% } %>
+	<% if (outputs.tableJSON) { %>
+	<a href='#seriesResults/<%= outputs.tableJSON[0] %>/<%= inputs["name"]%>' >view</a>
+	<% } else { %>
+	no series data
+	<% } %>
+	</td>
+        <td>
+	  <% if (outputs.signature) { %>
+           <a href='api/v2/WorkFileContents/<%= outputs.signature[0] %>/sFile.txt'>link</a>
+	<% }else{ %>
+	no file
+	<% } %>
+	</td>
+	<td>
+	  <% if (outputs.validation) { %>
+           <a href='api/v2/WorkFileContents/<%= outputs.validation[0] %>/vFile.txt'>link</a>
+	<% }else{ %>
+	no file
+	<% } %>
+	</td>
+    </script>
+    <!-- signup up error message template -->
+    <script type="text/template" id="tpl-signup-error">
+       <div class="modal">
+        <div class="modal-header">
+	  <button type="button" id="closeUp" class="close">×</button>
+	  <h3>
+	    <div class="alert alert-error">
+	      <%= error_message %>
+	    </div>
+	  </h3>
+	</div>
+        <div class="modal-body">
+	  <ul>
+	  <input type="text" class="input-block-level" id="newUserName" placeholder="new username">
+	  <input type="text" class="input-block-level" id="newEmail" placeholder="new email">
+	  <input type="text" class="input-block-level" id="newPassword" placeholder="new password">
+	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
+	</ul>
+	</div>
+        <div class="modal-footer">
+          <button id="close" class="button">Close</button>
+	 </div>	
+      </div>
+      <div class="modal-backdrop"></div>
+    </script>
+    <!-- End signup error message template -->
+    <!-- signup up success message template -->
+    <script type="text/template" id="tpl-signup-success">
+       <div class="modal">
+	 
+	 <div class="modal-header">
+	   <button type="button" id="closeUp" class="close">×</button>
+	   <div class="alert alert-success">
+	     <h3>
+	      New User Created
+	     </h3>
+	   </div>
+	 </div>
+	 <div class="modal-body">
+	   <h2>
+	     UserName: <%= username %> <br /> 
+	     Email: <%= email %>
+	     <h2>
+	 </div>
+	 <div class="modal-footer">
+           <button id="close" class="button">Close</button>
+	 </div>
+       </div>
+       <div class="modal-backdrop"></div>
+    </script>
+    <!-- End signup success message template -->
+    
+    <script type="text/template" id="tpl-signup">
+      
+      <div class="modal">
+        <div class="modal-header">
+	  <button type="button" id="closeUp" class="close">×</button>
+	  <h3>Sign Up</h3>
+	</div>
+        <div class="modal-body">
+	  <ul>
+	  <input type="text" class="input-block-level" id="newUserName" placeholder="new username - 1-30 characters, alphanumeric and underscore only">
+	  <input type="text" class="input-block-level" id="newEmail" placeholder="new email">
+	  <input type="text" class="input-block-level" id="newPassword" placeholder="new password">
+	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
+	</ul>
+	</div>
+        <div class="modal-footer">
+	  <button id="close" class="button">Close</button>
+	</div>	
+      </div>
+    </script>
+    <!-- Forgotten Password Template -->
+    <script type="text/template" id="tpl-send-reset">
+      
+      <div class="modal">
+        <div class="modal-header">
+	  <button type="button" id="closeUp" class="close">×</button>
+	  <h3>Password Reset</h3>
+	</div>
+        <div class="modal-body">
+	  <p>
+	    Submit your email address and you'll be sent instructions on how to reset your passowd.
+	  </p>
+	  <ul>
+	  <input type="text" class="input-block-level" id="email" placeholder="email address">
+	  <button class="btn btn-primary" id="sendReset">Reset Password</button>
+	</ul>
+	</div>
+	<div id="try"></div>
+        <div class="modal-footer">
+	  <button id="close" class="button">Close</button>
+	</div>	
+      </div>
+    </script> 
+    <!-- END Forgotten Password Template -->
+    <!-- END SIGN UP TPL -->
+   <script type="text/template" id="tpl-login">
+      
+      <div class="modal">
+        <div class="modal-header">
+	  <button type="button" id="closeUp" class="close">×</button>
+	  <h3>Log In</h3>
+	</div>
+        <div class="modal-body">
+	  <ul>
+	  <input type="text" class="input-block-level" id="username" placeholder="username">
+	  <input type="password" class="input-block-level" id="password" placeholder="password">
+	  <button class="btn btn-primary" id="login">Login</button>
+	</ul>
+	</div>
+        <div class="modal-footer">
+	  <button id="close" class="button">Close</button>
+	</div>	
+      </div>
+    </script> 
+   <!-- END LOGIN TEMPLATE -->
+   <script type="text/template" id="tpl-login-error">
+      
+      <div class="modal">
+        <div class="modal-header">
+	  <button type="button" id="closeUp" class="close">×</button>
+	  <div class="alert alert-error">
+	    User does not exist or password is incorrect.
+	    </div>
+	</div>
+        <div class="modal-body">
+	  <ul>
+	  <input type="text" class="input-block-level" id="username" placeholder="username">
+	  <input type="text" class="input-block-level" id="password" placeholder="password">
+	  <button class="btn btn-primary" id="login">Sign Up</button>
+	</ul>
+	</div>
+        <div class="modal-footer">
+	  <button id="close" class="button">Close</button>
+	</div>	
+      </div>
+    </script> 
+   <!-- END LOGING-ERROR TEMPLATE -->
+    <script type="text/template" id="tpl-gene-sig">
+      <h2>Create a New Query</h2>
+      <p>Please enter the identifiers in your upregulated and downregulated gene sets and press Submit. Identifiers can be gene symbols, Affymetrix probeset IDs, Entrez Gene IDs, or RefSeq IDs. The identifiers must all be of the same type.</p>
+      <form>
+      
+	<b>Up-Regulated Gene Identifiers:</b>
+	<textarea id="upGenes" rows="10" class="span3"></textarea>
+      
+	<b>Down-Regulated Gene Identifiers:</b>
+	<textarea id="downGenes" rows="10" class="span3"></textarea>
+      
+      
+      <div class="form-actions" align="center">
+	<b>New Query Name</b>
+	<input type="text" id="run_name" > <br />
+	<a href="#saveGeneSig" class="saveGeneSig btn btn-primary" >Submit</a>
+      </div>
+      </form>
+    </script>
+    <script type="text/template" id="tpl-reset-password">
+      <ul>
+	  <li>Hello <%= username %></li>
+	  <input type="text" class="input-block-level" id="password" placeholder="password">
+	  <button class="btn btn-primary" id="reset">Reset</button>
+	</ul>
+    </script>
+    <script type="text/template" id="tpl-navbar-no-login">
+    </script>
+    <!-- end no login template -->
+    <script type="text/template" id="tpl-navbar-yes-login">
+      <div class="nav-collapse collapse">
+        <p class="navbar-text pull-right">
+	  Logged In As <%= username %>
+	  <a href="#logout">&nbsp;(Logout)</a>
+	</p>
+      </div>
+    </script>
+    <!-- end logged in template -->
+    <script type="text/template" id="tpl-progress">
+      <div align="center">
+        <img src="assets/img/ajax-loader.gif"> <br />
+	Loading
+      </div>
+    </script>
+    
+    <!-- End Templates -->
+   
+    <script src="lib/jquery.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="lib/bootstrap.js"></script>
+
+    <script src="js/utils.js"></script>
+    <script src="js/models.js"></script>
+    <script src="js/views.js"></script>
+    <script src="js/main.js"></script>
+   
+  </body>
+</html>
