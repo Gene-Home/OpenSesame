@@ -85,7 +85,8 @@ var AppRouter = Backbone.Router.extend({
 	app.user.set("username",username);
 	app.user.set("token",token);
 	app.resetPasswordView = new ResetPasswordView({model:app.user});
-	$('#resetPassword').html(self.resetPasswordView.render().el);
+	$('#logos').hide();
+	$('#main-area').html(self.resetPasswordView.render().el);
 
     }
     
