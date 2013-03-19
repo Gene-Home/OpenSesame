@@ -1,0 +1,1 @@
+curl -X PUT  -H 'Content-Type: application/json' appurl/hive/v2/Configuration  -v -uroot:passwd -d @sysconf.json
