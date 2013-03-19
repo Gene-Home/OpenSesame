@@ -8,10 +8,12 @@ window.User = Backbone.Model.extend({
 	"group":"testgroup",
 	"username":null
     },
+    myNewFlag: false,
     // have to override
     isNew: function() {
 	var ggg = 1;
-	return this.get("username") == null;
+	return this.get("myNewFlag");
+	//return this.get("username") == null;
     },
     resetPassword: function(success_function, failure_function) {
 	var self = this;
