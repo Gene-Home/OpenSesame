@@ -1,0 +1,15 @@
+{
+	"mail.smtp.from":"myEmail@something.com",
+        "mail.smtp.user":"myEmail@something.com",
+        "template.password-reset-url-body":
+        "This is an GeneHive password reset email, for which the template has been changed. Username $USERNAME can be updated using token $TOKEN via URL: $URL",
+        "policy.public-user-creation":"true",
+        "template.password-reset-subject":"GeneHive password reset for $USERNAME",
+        "mail.smtp.port":"25",
+        "mail.smtp.host":"smtp.something.com",
+        "policy.user-change-tokens":"true",
+        "mail.smtp.password":"my-email-password",
+        "smtp-host":"",
+        "mail.smtp.starttls.enable":"true",
+        "template.password-reset-api-body":"This is a rather uncreative password reset email,Username $USERNAME can be updated : $TOKEN http://APPURL/index.html#resetPassword/$USERNAME/$TOKEN"
+}
