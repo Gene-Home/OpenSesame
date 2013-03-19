@@ -180,13 +180,16 @@ window.UserView = Backbone.View.extend({
 	   
 	};
 	var saveSuccess = function(model,resp,opts){
-	   
+	    model.set('myNewFlag',false);
 	    $(document.body).append( $(self.el).html(self.success_template(user.toJSON())));
 	    
 	};
 	this.model.set('username',$('#newUserName').val());
 	this.model.set('email',$('#newEmail').val());
 	this.model.set('password',$('#newPassword').val());
+	// make sure that the newFlag is set to true
+	// we can set it to false after saving
+	this.model.set('myNewFlag',true);
 	// no need for a token on a new user save
 	this.model.save({},{success:saveSuccess,error:saveError});
 	var hhh = 21;
