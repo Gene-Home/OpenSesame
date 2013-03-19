@@ -60,8 +60,7 @@
         </div>
       </div>
     </div>
-    <div id="resetPassword">
-    </div>
+    
     <div class="container-fluid">
       <div class="row-fluid">
 	<div class="span3">
@@ -365,11 +364,17 @@
       </form>
     </script>
     <script type="text/template" id="tpl-reset-password">
-      <ul>
-	  <li>Hello <%= username %></li>
-	  <input type="text" class="input-block-level" id="password" placeholder="password">
-	  <button class="btn btn-primary" id="reset">Reset</button>
-	</ul>
+      <div>
+	
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Hello <%= username %>, Enter Your New Password</h2>
+	<input type="text" class="span2 input-block-level" id="password" placeholder="new password">
+
+        <button class="btn btn-large btn-primary" id="reset">Submit</button>
+      </form>
+
+      </div>
+      
     </script>
     <script type="text/template" id="tpl-navbar-no-login">
     </script>
