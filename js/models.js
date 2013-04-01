@@ -37,8 +37,9 @@ window.SeriesResultCollection = Backbone.Collection.extend({
     model: SeriesResult,
     title: 'Title',
     sort_key: 'KS p',
+    // CAN WE GET RID OF THIS AND JUST USE AN ID FIELD ?
     setFileID: function(wFileID){
-	this.url = "api/v2/WorkFileContents/" + wFileID + "/x.json";
+	this.url = "api/v2/WorkFileContents/" + wFileID ;
     },
     comparator: function(item) {
         return item.get(this.sort_key);
@@ -90,17 +91,19 @@ window.WorkFile = Backbone.Model.extend({
 /**
  * A GeneSig is the input to our Job Run
  * Has a name and two workfiles: one for the up-regulated genes and 
- * one for down regulated genes
+ * one for down regulated genes.
+ * Perhaps should not extend Backbone model because its not backed 
+ * by any REST calls and is never retrieved or saved to the server.
+ * But allows to use it as Model in the View .. Bad Idea? 
+ * Maybe and should change in future releases
  **/
 window.GeneSig = Backbone.Model.extend({
-    url: 'localhost',
+    
     defaults: {
 	name: '',
 	upGenes: new WorkFile(),
 	downGenes: new WorkFile(),
 	upGeneLoaded: false,
 	downGeneLoaded: false
-    },
-    "sync" : geneSigSync
-		
+    }	
 })
