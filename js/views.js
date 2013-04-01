@@ -121,6 +121,8 @@ window.LoginView = Backbone.View.extend({
 	    $('#navbar').html(self.navbar_template(app.user.toJSON()));
 	    $('#sidebar').show();
 	    app.showHome();
+	    var ma =  $('#main-area'); 
+	    ma.attr('class','span9');
 	    self.remove();
 	    // render the logged in nav bar
 	    
@@ -169,6 +171,11 @@ window.UserView = Backbone.View.extend({
 	$(document.body).append(this.render().el); 
     },
     saveNewUser:function(){
+	// check right away for matching password
+	if( $('#newPassword').val() != $('#newPasswordRetype').val()){
+	    $("#sign-up-message").html("<div class='alert alert-error'>Passwords do not match.</div>");
+	    return false;
+	};
 	this.model = new User();
 	var user = this.model;
 	var self = this;
@@ -192,7 +199,6 @@ window.UserView = Backbone.View.extend({
 	this.model.set('myNewFlag',true);
 	// no need for a token on a new user save
 	this.model.save({},{success:saveSuccess,error:saveError});
-	var hhh = 21;
 	// TODO - set the top bar to the current username and make sure its sent with the
 	// subsequent parameters
     },
@@ -224,15 +230,18 @@ window.SendResetView = Backbone.View.extend({
 	var self = this
 	var resetSuccess = function(){
 	    
-	    $('#try').html('thank you, an email has been sent');
+	    $('#pw-reset-body').html('Thank you, an email has been sent.');
 	};
 	var resetFailure = function(){
 	    
-	    $('#try').html('this is not working');
+	    $('#pw-reset-body').html('Please try again later.');
 	};
 	
 	// set the user's email
 	this.model.set('email',$('#email').val());
+	// may have to wait for the email server so 
+	// show waiting image
+	$('#pw-reset-body').html(app.progressTemplate);
 	this.model.resetPassword(resetSuccess,resetFailure);
     }
 });
