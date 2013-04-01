@@ -5,6 +5,7 @@ var AppRouter = Backbone.Router.extend({
     userToken :'',
     progressTemplate: _.template($('#tpl-progress').html()),
     routes:{
+	"":"showLanding",
 	"showHome":"showHome",
         "jobRuns":"listJobRuns",
 	"seriesResults/:wFileID/:resultName":"listSeriesResults",
@@ -16,15 +17,26 @@ var AppRouter = Backbone.Router.extend({
 	"sendReset":"sendResetEmail",
 	"resetPassword/:username/:token":"resetPassword"
     },
+    showLanding:function(){
+	$.get("landing.html", function(content){
+            var html = content;
+	    var ma =  $('#main-area'); 
+	    ma.attr('class','span12');
+            ma.html(html);
+	});
+	return false;
+    },
     showHome:function(){
 	$.get("overview.html", function(content){
             var html = content;
 	    var ma =  $('#main-area'); 
             $('#main-area').html(html);
 	});
+	return false;
     },
     listSeriesResults:function (wFileID,resultName) {
         this.seriesResultList = new SeriesResultCollection();
+	// should be able to just make this a workfile contents model -- and set the id
 	this.seriesResultList.setFileID(wFileID);
 	this.seriesResultList.title = resultName;
 	var self = this;
@@ -35,6 +47,7 @@ var AppRouter = Backbone.Router.extend({
             $('#main-area').html(srel);
 	    $('#main-area').show();
 	});
+	return false;
     },
     listJobRuns:function () {
         this.jobRunList = new JobRunCollection();
@@ -46,6 +59,7 @@ var AppRouter = Backbone.Router.extend({
             $('#main-area').html(jrel);
 	    $('#main-area').show();
 	});
+	return false;
     },
     newGeneSig:function () {
         if (app.workFileView) app.geneSigView.close();
@@ -54,30 +68,33 @@ var AppRouter = Backbone.Router.extend({
         app.geneSigView = new GeneSigView({model:app.geneSig});
         $('#main-area').html(app.geneSigView.render().el);
 	$('#main-area').show();
+	return false;
     },
     saveGeneSig:function(){
 	app.geneSigView.saveGeneSig(this.listJobRuns);
+	return false;
     },
     newUser:function(){
 	app.user = new User();
 	app.newUserView = new UserView({model:app.user});
 	app.newUserView.show();
+	return false;
     },
     login:function(){
 	app.user = new User();
 	app.loginView = new LoginView({model:app.user});
 	app.loginView.show();
-	$('#logos').hide();
 	return false;
     }, 
     logout:function(){
 	app.user = new User();
-	var eeee = 21;
-	window.location = 'index.html'
+	window.location = 'index.html';
+	return false;
     },
     sendResetEmail:function(){
 	app.sendResetView = new SendResetView({model:app.user});
 	app.sendResetView.show();
+	return false;
     },
     resetPassword:function(username,token){
 	var self = this;
@@ -87,13 +104,17 @@ var AppRouter = Backbone.Router.extend({
 	app.resetPasswordView = new ResetPasswordView({model:app.user});
 	$('#logos').hide();
 	$('#main-area').html(self.resetPasswordView.render().el);
-
+	return false;
     }
     
 
    
 });
 var app = new AppRouter();
+$("#sendReset").click( function(){
+    // window.
+}
+)
 // bootstrap nav
 $(".nav li").click(function(e) {
     $(".nav li").removeClass("active");
