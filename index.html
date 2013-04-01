@@ -7,6 +7,8 @@
     <meta name="author" content="">
 
     <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/css/docs_lite.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -26,7 +28,6 @@
         padding: 14px 24px;
       }
     </style>
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
@@ -41,18 +42,19 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
+	  <div id="navbar">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">open SESAME</a>
-	  <div id="navbar">
+	  
             <div class="nav-collapse collapse">
               <ul class="nav">
 		<li><a href="#newUser">Signup</a></li>
 		<li><a href="#login">Login</a></li>
-		<li><a href="#sendReset">Forgot Password</a></li>
+		<li><a href="#sendReset" id="sendReset">Forgot Password</a></li>
               </ul>
 	     
             </div><!--/.nav-collapse -->
@@ -61,50 +63,17 @@
       </div>
     </div>
     
-    <div class="container-fluid">
-      <div class="row-fluid">
-	<div class="span3">
-	  <div class="well sidebar-nav" id="sidebar" style = "display:none">
-            <ul class="nav nav-list">
+    <div class="container">
+      <div class="row">
+	<div id="sidebar" class="span3 bs-docs-sidebar" style="display:none">
+	  
+            <ul class="nav nav-list bs-docs-sidenav affix">
               <li><a href="#showHome">Home</a></li>
               <li><a href="#newGeneSig" id="newGeneSig">New Query</a></li>
               <li><a href="#jobRuns" id="jobRuns">Query Results</a></li>
-              
             </ul>
-          </div>
 	</div>
-	<div class="span9">
-	  <div id="main-area">
-	    <div class="hero-unit" >
-              <p>
-		openSESAME (Search of Expression Signatures Across Many Experiments) is a tool 
-		for using patterns of gene expression to discover relationships between experimental 
-		conditions, diseases, or biological states. openSESAME is unique in that it identifies 
-		connections between datasets based on expression patterns alone, without the need for 
-		prior knowledge of experimental groups or phenotypes.
-	      </p>
-              <p>
-        	This web server is an interface to allow the scientific community to perform openSESAME 
-        	queries using a repository of over 75,000 Affymetrix human gene expression profiles obtained 
-        	from the Gene Expression Omnibus (GEO) at the National Center for Biotechnology Information (NCBI). 
-        	A gene expression signature (sets of genes that are expected to be coordinately induced or repressed) 
-        	is used as input. openSESAME will then return a list of datasets in which these genes are 
-        	coordinately differentially expressed, as well as plots (heat maps) of the expression of the 
-        	signature genes in these datasets. A more detailed description of how to perform and interpret an 
-        	openSESAME query is available after logging in.
-            </p>
-	      
-	    </div>
-	  </div>
-	  <div id="jobs">
-	  </div>
-      
-	  <div class="jumbotron" id="logos">
-       	    <a class="btn btn-large btn-success" href="#newUser">Sign Up for openSESAME</a>
-	    <hr>
-	    <img src="assets/img/logo/bu_logo.png">&nbsp;&nbsp;
-	    <img src="assets/img/logo/pulm_logo.png">&nbsp;&nbsp;
-          </div>
+	<div class="span12" id="main-area">
 	 
 	</div>
       </div>
@@ -130,7 +99,7 @@
 	  <tr>
 	    <td> <%= x["Series ID"] %> </td>
 	    <td> <%= x["Series Title"] %> </td>
-	    <td> <%= x["KS p"] %> </td>
+	    <td> <% n = new Number(["KS p"]) %><%= n %></td>
 	    <td> <%= x["KS q"] %> </td>
 	    <td> <%= x["Fisher p"] %> </td>
 	    <td> <%= x["Fisher q"] %> </td>
@@ -218,9 +187,9 @@
 	</div>
         <div class="modal-body">
 	  <ul>
-	  <input type="text" class="input-block-level" id="newUserName" placeholder="new username">
-	  <input type="text" class="input-block-level" id="newEmail" placeholder="new email">
-	  <input type="text" class="input-block-level" id="newPassword" placeholder="new password">
+	  <input type="text" class="input-block-level" id="newUserName" placeholder="New User Name">
+	  <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
+	  <input type="text" class="input-block-level" id="newPassword" placeholder="New Password">
 	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
 	</ul>
 	</div>
@@ -245,7 +214,7 @@
 	 </div>
 	 <div class="modal-body">
 	   <h2>
-	     UserName: <%= username %> <br /> 
+	     User Name: <%= username %> <br /> 
 	     Email: <%= email %>
 	     <h2>
 	 </div>
@@ -264,11 +233,13 @@
 	  <button type="button" id="closeUp" class="close">×</button>
 	  <h3>Sign Up</h3>
 	</div>
+	<div id="sign-up-message"></div>
         <div class="modal-body">
 	  <ul>
-	  <input type="text" class="input-block-level" id="newUserName" placeholder="new username - 1-30 characters, alphanumeric and underscore only">
-	  <input type="text" class="input-block-level" id="newEmail" placeholder="new email">
-	  <input type="text" class="input-block-level" id="newPassword" placeholder="new password">
+	  <input type="text" class="input-block-level" id="newUserName" placeholder="New Username - 1-30 characters, alphanumeric and underscore only">
+	  <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
+	  <input type="password" class="input-block-level" id="newPassword" placeholder="New Password">
+	  <input type="password" class="input-block-level" id="newPasswordRetype" placeholder="ReType Password">
 	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
 	</ul>
 	</div>
@@ -285,9 +256,9 @@
 	  <button type="button" id="closeUp" class="close">×</button>
 	  <h3>Password Reset</h3>
 	</div>
-        <div class="modal-body">
+        <div class="modal-body" id="pw-reset-body">
 	  <p>
-	    Submit your email address and you'll be sent instructions on how to reset your passowd.
+	   Please submit your email address and you'll be sent instructions on how to reset your password.
 	  </p>
 	  <ul>
 	  <input type="text" class="input-block-level" id="email" placeholder="email address">
@@ -301,7 +272,7 @@
       </div>
     </script> 
     <!-- END Forgotten Password Template -->
-    <!-- END SIGN UP TPL -->
+  
    <script type="text/template" id="tpl-login">
       
       <div class="modal">
@@ -347,20 +318,26 @@
     <script type="text/template" id="tpl-gene-sig">
       <h2>Create a New Query</h2>
       <p>Please enter the identifiers in your upregulated and downregulated gene sets and press Submit. Identifiers can be gene symbols, Affymetrix probeset IDs, Entrez Gene IDs, or RefSeq IDs. The identifiers must all be of the same type.</p>
-      <form>
+      <form class="form-horizontal">
       
-	<b>Up-Regulated Gene Identifiers:</b>
-	<textarea id="upGenes" rows="10" class="span3"></textarea>
+	<label class="control-label" for="upGenes">Up-Regulated Gene Identifiers:</label>
+	<div class="control-group">
+	  <textarea id="upGenes" rows="10" class="span3"></textarea>
+	</div>
+	<label class="control-label" for="downGenes">Down-Regulated Gene Identifiers:</label>
+	<div class="control-group">
+	  <textarea id="downGenes" rows="10" class="span3"></textarea>
+	</div>
       
-	<b>Down-Regulated Gene Identifiers:</b>
-	<textarea id="downGenes" rows="10" class="span3"></textarea>
-      
-      
-      <div class="form-actions" align="center">
-	<b>New Query Name</b>
-	<input type="text" id="run_name" > <br />
-	<a href="#saveGeneSig" class="saveGeneSig btn btn-primary" >Submit</a>
-      </div>
+	<label class="control-label" for="run_name">New Query Name</label>
+	<div class="control-group">
+	  <input type="text" id="run_name" >
+	</div>
+	<label class="control-label" for="saveGeneSig"></label>
+	<div class="control-group">
+	  <a href="#saveGeneSig" class="saveGeneSig btn btn-primary" >Submit</a>
+	</div>
+	
       </form>
     </script>
     <script type="text/template" id="tpl-reset-password">
@@ -391,7 +368,6 @@
     <script type="text/template" id="tpl-progress">
       <div align="center">
         <img src="assets/img/ajax-loader.gif"> <br />
-	Loading
       </div>
     </script>
     
