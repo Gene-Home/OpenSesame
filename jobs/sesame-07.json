@@ -1,0 +1,72 @@
+{
+"name": "sesame-0.7",
+"inputs": {
+"name": {
+"inputType": "string",
+"plural": false,
+"required": false
+},
+"downgenes": {
+"inputType": "file",
+"plural": false,
+"required": true
+},
+"upgenes": {
+"inputType": "file",
+"plural": false,
+"required": true
+}
+},
+"outputs": {
+"validation": 
+{
+"outputType": "file",
+"plural": false,
+"required": true,
+"transient": true
+}
+,
+"tableJSON": 
+{
+"outputType": "file",
+"fileType": "JSON",
+"plural": false,
+"required": true,
+"transient": false
+}
+,
+"heatmapsPDF":
+{
+"outputType": "file",
+"fileType": "PDF",
+"plural": false,
+"required": true,
+"transient": false
+}
+,
+"signature": 
+{
+"outputType": "file",
+"plural": false,
+"required": true,
+"transient": false
+}
+,
+"tableTSV": 
+{
+"outputType": "file",
+"fileType": "TSV",
+"plural": false,
+"required": true,
+"transient": false
+}
+
+},
+"trashed": false,
+"public": true,
+"helperFiles": [
+"step1.R",
+"to_json_sesame.py",
+"step2.R"
+]
+}
