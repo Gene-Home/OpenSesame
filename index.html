@@ -99,7 +99,7 @@
 	  <tr>
 	    <td> <%= x["Series ID"] %> </td>
 	    <td> <%= x["Series Title"] %> </td>
-	    <td> <% n = new Number(["KS p"]) %><%= n %></td>
+	    <td> <% x["KS p"] %></td>
 	    <td> <%= x["KS q"] %> </td>
 	    <td> <%= x["Fisher p"] %> </td>
 	    <td> <%= x["Fisher q"] %> </td>
@@ -178,7 +178,6 @@
     <script type="text/template" id="tpl-signup-error">
        <div class="modal">
         <div class="modal-header">
-	  <button type="button" id="closeUp" class="close">×</button>
 	  <h3>
 	    <div class="alert alert-error">
 	      <%= error_message %>
@@ -186,16 +185,17 @@
 	  </h3>
 	</div>
         <div class="modal-body">
-	  <ul>
-	  <input type="text" class="input-block-level" id="newUserName" placeholder="New User Name">
-	  <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
-	  <input type="text" class="input-block-level" id="newPassword" placeholder="New Password">
-	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
-	</ul>
+	  <form>
+	    <ul>
+	      <input type="text" class="input-block-level" id="newUserName" placeholder="New User Name">
+	      <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
+	      <input type="text" class="input-block-level" id="newPassword" placeholder="New Password">
+	      <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
+	      <button id="close" class="btn">Cancel</button>
+	    </ul>
+	  </form>
 	</div>
-        <div class="modal-footer">
-          <button id="close" class="button">Close</button>
-	 </div>	
+        <div class="modal-footer"></div>	
       </div>
       <div class="modal-backdrop"></div>
     </script>
@@ -230,21 +230,22 @@
       
       <div class="modal">
         <div class="modal-header">
-	  <button type="button" id="closeUp" class="close">×</button>
 	  <h3>Sign Up</h3>
 	</div>
 	<div id="sign-up-message"></div>
         <div class="modal-body">
-	  <ul>
-	  <input type="text" class="input-block-level" id="newUserName" placeholder="New Username - 1-30 characters, alphanumeric and underscore only">
-	  <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
-	  <input type="password" class="input-block-level" id="newPassword" placeholder="New Password">
-	  <input type="password" class="input-block-level" id="newPasswordRetype" placeholder="ReType Password">
-	  <button class="btn btn-primary" id="saveNewUser">Sign Up</button>
-	</ul>
+	  <form>
+	    <ul>
+	      <input type="text" class="input-block-level" id="newUserName" placeholder="New Username - 1-30 characters, alphanumeric and underscore only">
+	      <input type="text" class="input-block-level" id="newEmail" placeholder="New Email">
+	      <input type="password" class="input-block-level" id="newPassword" placeholder="New Password">
+	      <input type="password" class="input-block-level" id="newPasswordRetype" placeholder="ReType Password">
+	      <button class="btn btn-primary" id="saveNewUser" type="button">Sign Up</button>
+	      <button id="close" class="btn">Cancel</button>
+	    </ul>
+	  </form>
 	</div>
         <div class="modal-footer">
-	  <button id="close" class="button">Close</button>
 	</div>	
       </div>
     </script>
@@ -253,21 +254,23 @@
       
       <div class="modal">
         <div class="modal-header">
-	  <button type="button" id="closeUp" class="close">×</button>
-	  <h3>Password Reset</h3>
+	   <button type="button" id="closeUp" class="close">×</button>
+	  <h3>Password Resets</h3>
 	</div>
         <div class="modal-body" id="pw-reset-body">
 	  <p>
 	   Please submit your email address and you'll be sent instructions on how to reset your password.
 	  </p>
-	  <ul>
-	  <input type="text" class="input-block-level" id="email" placeholder="email address">
-	  <button class="btn btn-primary" id="sendReset">Reset Password</button>
-	</ul>
+	  <form>
+	    <ul>
+	      <input type="text" class="input-block-level" id="email" placeholder="email address">
+	      <button class="btn btn-primary" id="sendReset">Reset Password</button>
+	      <button id="close" class="btn">Cancel</button>
+	    </ul>
+	  </form>
 	</div>
 	<div id="try"></div>
         <div class="modal-footer">
-	  <button id="close" class="button">Close</button>
 	</div>	
       </div>
     </script> 
@@ -277,18 +280,20 @@
       
       <div class="modal">
         <div class="modal-header">
-	  <button type="button" id="closeUp" class="close">×</button>
 	  <h3>Log In</h3>
 	</div>
         <div class="modal-body">
-	  <ul>
-	  <input type="text" class="input-block-level" id="username" placeholder="username">
-	  <input type="password" class="input-block-level" id="password" placeholder="password">
-	  <button class="btn btn-primary" id="login">Login</button>
-	</ul>
+	  <form onsubmit="return false">
+	    <ul>
+	      <input type="text" class="input-block-level" id="username" placeholder="username">
+	      <input type="password" class="input-block-level" id="password" placeholder="password">
+	      <button class="btn btn-primary" id="login2" type="submit">Login</button>
+	      <button id="close" class="btn">Cancel</button>
+	    </ul>
+	  </form>
 	</div>
         <div class="modal-footer">
-	  <button id="close" class="button">Close</button>
+	  
 	</div>	
       </div>
     </script> 
@@ -297,20 +302,22 @@
       
       <div class="modal">
         <div class="modal-header">
-	  <button type="button" id="closeUp" class="close">×</button>
 	  <div class="alert alert-error">
 	    User does not exist or password is incorrect.
 	    </div>
 	</div>
         <div class="modal-body">
-	  <ul>
-	  <input type="text" class="input-block-level" id="username" placeholder="username">
-	  <input type="text" class="input-block-level" id="password" placeholder="password">
-	  <button class="btn btn-primary" id="login">Sign Up</button>
-	</ul>
+	  <form>
+	    <ul>
+	      <input type="text" class="input-block-level" id="username" placeholder="username">
+	      <input type="text" class="input-block-level" id="password" placeholder="password">
+	      <button class="btn btn-primary" id="login">Sign Up</button>
+	      <button id="close" class="btn">Cancel</button>
+	    </ul>
+	  </form>
 	</div>
         <div class="modal-footer">
-	  <button id="close" class="button">Close</button>
+	  
 	</div>	
       </div>
     </script> 
