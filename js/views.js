@@ -96,6 +96,7 @@ window.LoginView = Backbone.View.extend({
     error_template: _.template($('#tpl-login-error').html()),
     navbar_template: _.template($('#tpl-navbar-yes-login').html()),
     events:{
+	"submit": "login",
         "click #login":"login",
 	'click #close': 'close',
 	'click #closeUp': 'close',
@@ -124,13 +125,14 @@ window.LoginView = Backbone.View.extend({
 	    var ma =  $('#main-area'); 
 	    ma.attr('class','span9');
 	    self.remove();
+	    return false;
 	    // render the logged in nav bar
 	    
 	};
 	var fetchError = function(){
 	    // bad username password combo
 	    $(document.body).append( $(self.el).html(self.error_template()));
-	    
+	    return false;
 	};
 	app.user = new User();
 	app.user.set('username',$('#username').val());
