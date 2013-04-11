@@ -84,6 +84,7 @@ var AppRouter = Backbone.Router.extend({
 	app.user = new User();
 	app.loginView = new LoginView({model:app.user});
 	app.loginView.show();
+	
 	return false;
     }, 
     logout:function(){
@@ -110,7 +111,15 @@ var AppRouter = Backbone.Router.extend({
 
    
 });
+
 var app = new AppRouter();
+// need to change the url so that we can 
+// click twice on the same link
+app.bind('all', function(route) {
+   app.navigate("", {trigger: false, replace: true});
+    
+});
+
 $("#sendReset").click( function(){
     // window.
 }
