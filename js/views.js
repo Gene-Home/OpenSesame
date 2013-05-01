@@ -52,8 +52,6 @@ window.JobRunListView = Backbone.View.extend({
 	    
 	    lv = new JobRunListItemView({model:jobRun}).render().el;
 	    $(this.el).find('tbody').append(lv);
-	    var fff = 21;
-            //$(this.el).append(lv);
         },this);
         return this;
     }
@@ -62,7 +60,7 @@ window.JobRunListView = Backbone.View.extend({
 });
 window.JobRunListItemView = Backbone.View.extend({
     // not sure how much i like forcing this to be wrapped 
-    // in 'tr' in side the view code .. but othewise
+    // in 'tr' inside the view code .. but othewise
     // it will wrap it in a 'div' tag - cant have that!
     tagName:'tr',
     className: function(){
@@ -94,7 +92,6 @@ window.JobRunListItemView = Backbone.View.extend({
 window.LoginView = Backbone.View.extend({
     template: _.template($('#tpl-login').html()),
     error_template: _.template($('#tpl-login-error').html()),
-    navbar_template: _.template($('#tpl-navbar-yes-login').html()),
     events:{
 	"submit": "login",
         "click #login":"login",
@@ -111,6 +108,9 @@ window.LoginView = Backbone.View.extend({
     },
     // 
     close: function() {
+	// since this is a modal - we are going to need to reset
+	// the url in the browser
+	app.navigate("", {trigger: false, replace: true});
         this.remove();
 	return true;
     },
@@ -119,11 +119,14 @@ window.LoginView = Backbone.View.extend({
 	// move this to the main app 
 	var fetchSuccess = function(){
 	    // user is logged in
-	    $('#navbar').html(self.navbar_template(app.user.toJSON()));
-	    $('#sidebar').show();
-	    app.showHome();
-	    var ma =  $('#main-area'); 
-	    ma.attr('class','span9');
+	    // set the token in the cookie
+	    $.cookie("userToken",app.userToken);
+	    $.cookie("user",JSON.stringify(app.user));
+	    //$('#navbar').html(self.navbar_template(app.user.toJSON()));
+	    //$('#sidebar').show();
+	    app.showHomePrivate();
+	    // naviate to home incase the user refreshes
+	    app.navigate("showHome", {trigger: false, replace: true});
 	    self.remove();
 	    return false;
 	    // render the logged in nav bar
@@ -132,6 +135,8 @@ window.LoginView = Backbone.View.extend({
 	var fetchError = function(){
 	    // bad username password combo
 	    $(document.body).append( $(self.el).html(self.error_template()));
+	    // also reset the browser url
+	    app.navigate("", {trigger: false, replace: true});
 	    return false;
 	};
 	app.user = new User();
@@ -267,7 +272,6 @@ window.ResetPasswordView = Backbone.View.extend({
 	app.user.set('id',76);
 	app.user.set('password',$('#password').val());
 	app.user.save();
-	var ttt = 21;
     }
 })
 
@@ -316,12 +320,12 @@ window.GeneSigView = Backbone.View.extend({
 	    return false;
 	};
 	var saveDownGenes=function(){
-	    dg = geneSig.get('downGenes');
+	    var dg = geneSig.get('downGenes');
 	    dg.save({},{success:runSesameJob,headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
 	    return false;
 	};
 	var saveUpGenes=function(){
-	    up = geneSig.get('upGenes');
+	    var up = geneSig.get('upGenes');
 	    up.save({},{success:saveDownGenes,headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
 	    return false;
 	};
