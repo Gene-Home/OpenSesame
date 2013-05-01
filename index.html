@@ -85,12 +85,12 @@
       <table class="table table-striped" border='1'>
 	<thead>
 	  <tr>
-	    <th><a href="#" id="bySeriesID">Series ID </a></th>
-	    <th><a href="#" id="bySeriesTitle">Series Title</a></th>
-	    <th><a href="#" id="byKSp">KS p</a></th>
-	    <th><a href="#" id="byKSq">KS q</a></th>
-	    <th><a href="#" id="byFisherp">Fisher p</a></th>
-	    <th><a href="#" id="byFisherq">Fisher q</a></th>
+	    <th><a href="#bySeriesID" id="bySeriesID">Series ID </a></th>
+	    <th><a href="#bySeriesTitle" id="bySeriesTitle">Series Title</a></th>
+	    <th><a href="#byKSp" id="byKSp">KS p</a></th>
+	    <th><a href="#byKSq" id="byKSq">KS q</a></th>
+	    <th><a href="#byFisherp" id="byFisherp">Fisher p</a></th>
+	    <th><a href="#byFisherq" id="byFisherq">Fisher q</a></th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -142,14 +142,14 @@
 	<td><%= status %></td>
 	<td>
 	<% if (outputs.heatmapsPDF) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.heatmapsPDF[0] %>/deft.pdf'>PDF</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.heatmapsPDF[0] %>/sesame_heatmap.pdf?token=<%= outputTokens.heatmapsPDF[0] %>'>PDF</a>
 	<% }else{ %>
 	no file
 	<% } %>
 	</td>
         <td>
 	  <% if (outputs.tableTSV) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.tableTSV[0] %>/oFile.csv'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.tableTSV[0] %>/sesame_outputs.csv?token=<%= outputTokens.tableTSV[0] %>'>link</a>
 	<% }else{ %>
 	no file
 	<% } %>
@@ -161,14 +161,14 @@
 	</td>
         <td>
 	  <% if (outputs.signature) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.signature[0] %>/sFile.txt'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.signature[0] %>/sesame_signature.txt?token=<%= outputTokens.signature[0] %>'>link</a>
 	<% }else{ %>
 	no file
 	<% } %>
 	</td>
 	<td>
 	  <% if (outputs.validation) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.validation[0] %>/vFile.txt'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.validation[0] %>/sesame_validation.txt?token=<%= outputTokens.validation[0] %>'>link</a>
 	<% }else{ %>
 	no file
 	<% } %>
@@ -197,7 +197,6 @@
 	</div>
         <div class="modal-footer"></div>	
       </div>
-      <div class="modal-backdrop"></div>
     </script>
     <!-- End signup error message template -->
     <!-- signup up success message template -->
@@ -222,13 +221,13 @@
            <button id="close" class="button">Close</button>
 	 </div>
        </div>
-       <div class="modal-backdrop"></div>
+
     </script>
     <!-- End signup success message template -->
     
     <script type="text/template" id="tpl-signup">
       
-      <div class="modal">
+      <div class="modal fade in"  >
         <div class="modal-header">
 	  <h3>Sign Up</h3>
 	</div>
@@ -255,7 +254,7 @@
       <div class="modal">
         <div class="modal-header">
 	   <button type="button" id="closeUp" class="close">×</button>
-	  <h3>Password Resets</h3>
+	  <h3>Password Reset</h3>
 	</div>
         <div class="modal-body" id="pw-reset-body">
 	  <p>
@@ -384,7 +383,8 @@
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
     <script src="lib/bootstrap.js"></script>
-
+    <script src="lib/jquery.cookie.js"></script>
+   
     <script src="js/utils.js"></script>
     <script src="js/models.js"></script>
     <script src="js/views.js"></script>
