@@ -53,7 +53,7 @@ window.SeriesResultCollection = Backbone.Collection.extend({
 window.JobRun = Backbone.Model.extend({
     
     urlRoot: "api/v2/JobRuns",
-
+    
     defaults: {
         id: null,
 	creator: "",
@@ -66,7 +66,8 @@ window.JobRunCollection = Backbone.Collection.extend({
     model: JobRun,
     url: function(){
 	// filter on server side for job type and specific user
-	return "api/v2/JobRuns?jobType=" + app.JOB_TYPE + "&creator=" + app.user.get('username');  
+	// and not trashed 
+	return "api/v2/JobRuns?jobType=" + app.JOB_TYPE + "&creator=" + app.user.get('username') + "&trashed=false";  
     },
     byJobType: function(jobType) {
 	filtered = this.filter(function(jobRun) {
