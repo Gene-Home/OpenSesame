@@ -99,7 +99,7 @@
 	  <tr>
 	    <td> <%= x["Series ID"] %> </td>
 	    <td> <%= x["Series Title"] %> </td>
-	    <td> <% x["KS p"] %></td>
+	    <td> <%= x["KS p"] %></td>
 	    <td> <%= x["KS q"] %> </td>
 	    <td> <%= x["Fisher p"] %> </td>
 	    <td> <%= x["Fisher q"] %> </td>
@@ -122,6 +122,7 @@
       <table class="table " border='1'>
 	<thead>
 	  <tr>
+	    <th></th>
 	    <th>Name</th>
 	    <th>Started</th>
 	    <th>Status</th>
@@ -137,6 +138,7 @@
       </table>
     </script>
     <script type="text/template" id="tpl-jobRun-row">
+      <td><button class="btn btn-danger deleteJob" type="button" id="jobRun_<%= id %>" >delete</button></td>
         <td><%= inputs["name"] %></td>
         <td><%= creationDatetime %></td>
 	<td><%= status %></td>
@@ -320,7 +322,9 @@
 	</div>	
       </div>
     </script> 
-   <!-- END LOGING-ERROR TEMPLATE -->
+   <!-- END LOG-IN-ERROR TEMPLATE -->
+
+   
     <script type="text/template" id="tpl-gene-sig">
       <h2>Create a New Query</h2>
       <p>Please enter the identifiers in your upregulated and downregulated gene sets and press Submit. Identifiers can be gene symbols, Affymetrix probeset IDs, Entrez Gene IDs, or RefSeq IDs. The identifiers must all be of the same type.</p>
