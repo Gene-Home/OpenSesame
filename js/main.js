@@ -30,8 +30,14 @@ var AppRouter = Backbone.Router.extend({
 	    this.user = new User();
 	    this.user.set('username',tuser.username);
 	    this.user.set('password',tuser.password);
-	    this.setupPagePrivate();
-	    
+	    // if the user is going to index.html
+	    // show the public view - otherwise show private
+	    var hsh = Backbone.history.location.hash
+	    if(hsh){
+		this.setupPagePrivate();
+	    }else{
+		this.showHomePublic();
+	    }
 	    
 	}else{
 	    this.showHomePublic();
@@ -64,13 +70,13 @@ var AppRouter = Backbone.Router.extend({
     },
    setupPagePrivate:function(){
        var ma =  $('#main-area');
-       // set to 9, this is what a logged in
+       // set to a span of 9, this is what a logged in
        // user sees - to the right of the sidebar
        ma.attr('class','span9');
        var navbar_template =  _.template($('#tpl-navbar-yes-login').html());
        $('#navbar').html(navbar_template(this.user.toJSON()));
        $('#sidebar').show();
-   }, 
+   },
     listSeriesResults:function (wFileID,resultName) {
         this.seriesResultList = new SeriesResultCollection();
 	// should be able to just make this a workfile contents model -- and set the id
