@@ -42,7 +42,12 @@ window.SeriesResultListView = Backbone.View.extend({
 });
 
 window.JobRunListView = Backbone.View.extend({
+    self:this,
     template: _.template($('#tpl-jobRun-table').html()),
+    events:{
+        "click #deleteJobs":"bulkDelete",
+	"click .deleteJob" : "deleteJobRun"
+    },
     initialize:function () {
         this.model.bind("reset", this.render, this);
     },
@@ -54,7 +59,40 @@ window.JobRunListView = Backbone.View.extend({
 	    $(this.el).find('tbody').append(lv);
         },this);
         return this;
-    }
+    },
+    deleteJobRun:function(event){
+	var self = this;
+	var buttonId = event.target.id;
+	if (confirm("Are You Sure") == false){
+	    return false;
+	};
+	// get the ID from the right part of the button ID
+	var jrId = buttonId.split("_")[1];
+	var jr = this.model.get(jrId);
+	this.model.remove(jr);
+	jr.set('trashed',true);
+	var saveSuccess = function(){
+	    var row_id = '#job_run_row_' + jrId;  
+	    $(row_id).toggle('highlight');
+            return self;
+	}
+	jr.save({},{success:saveSuccess,headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
+	
+    },
+    bulkDelete:function (){
+	_.each(this.model.models, function(jobRun){
+	    var cbId = '#jobRun_' + jobRun.get('id');
+	    // check the DOM for selected for delete
+	    var cb = $(cbId);
+	    var isChecked = cb.is(":checked");
+	    if(isChecked){
+		jobRun.set('trashed',true);
+		jobRun.save({},{headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
+		var fff = 43;
+		//delete
+	    }
+	},this);
+    },
    
     
 });
@@ -64,16 +102,23 @@ window.JobRunListItemView = Backbone.View.extend({
     // it will wrap it in a 'div' tag - cant have that!
     tagName:'tr',
     className: function(){
-	if( this.model.get('status') == 'COMPLETE'){
+	var status = this.model.get('status'); 
+	if(  status == 'COMPLETE'){
 	    return 'success';
 	}
-	if( this.model.get('status') == 'PENDING'){
+	if( status  == 'PENDING'){
 	    return 'warning';
 	}
-	if( this.model.get('status') == 'RUNNING'){
+	if( status == 'RUNNING'){
 	    return 'info';
 	}
+	if( status == 'ABORTED' || status == 'FAILED' ){
+	    return 'error';
+	}
 	
+    },
+    id: function(){
+	return 'job_run_row_' + this.model.get('id');
     },
     template: _.template($('#tpl-jobRun-row').html()),
     render:function (eventName) {
@@ -119,9 +164,9 @@ window.LoginView = Backbone.View.extend({
 	// move this to the main app 
 	var fetchSuccess = function(){
 	    // user is logged in
-	    // set the token in the cookie
-	    $.cookie("userToken",app.userToken);
-	    $.cookie("user",JSON.stringify(app.user));
+	    // set the token in the cookie to expire in a day
+	    $.cookie("userToken",app.userToken,{expires : 1});
+	    $.cookie("user",JSON.stringify(app.user),{expires : 1});
 	    //$('#navbar').html(self.navbar_template(app.user.toJSON()));
 	    //$('#sidebar').show();
 	    app.showHomePrivate();
@@ -308,7 +353,7 @@ window.GeneSigView = Backbone.View.extend({
 	
 	var showJobList = function(){};
 	var showErrors = function(){};
-	var runSesameJob=function(){
+	var runSesameJob = function(){
 	    // set the job params before we sync or trigger the job
 	    // get the upReg Genes ID
 	    // get the downReg Genes ID
