@@ -260,7 +260,7 @@
 	</div>
         <div class="modal-body" id="pw-reset-body">
 	  <p>
-	   Please submit your email address and you'll be sent instructions on how to reset your password.
+	   Please submit your email address and you will be sent instructions on how to reset your password.
 	  </p>
 	  <form>
 	    <ul>
@@ -330,39 +330,26 @@
       <p>Please enter the identifiers in your upregulated and downregulated gene sets and press Submit. Identifiers can be gene symbols, Affymetrix probeset IDs, Entrez Gene IDs, or RefSeq IDs. The identifiers must all be of the same type.</p>
       <form class="form-horizontal">
       
-	<label class="control-label" for="upGenes">Up-Regulated Gene Identifiers:</label>
-	<div class="control-group">
-	  <textarea id="upGenes" rows="10" class="span3"></textarea>
-	</div>
-	<label class="control-label" for="downGenes">Down-Regulated Gene Identifiers:</label>
-	<div class="control-group">
-	  <textarea id="downGenes" rows="10" class="span3"></textarea>
-	</div>
+	     <label class="control-label" for="upGenes">Up-Regulated Gene Identifiers:</label>
+	     <div class="control-group">
+	       <textarea id="upGenes" rows="10" class="span3"></textarea>
+	     </div>
+	     <label class="control-label" for="downGenes">Down-Regulated Gene Identifiers:</label>
+	     <div class="control-group">
+	       <textarea id="downGenes" rows="10" class="span3"></textarea>
+	     </div>
       
-	<label class="control-label" for="run_name">New Query Name</label>
-	<div class="control-group">
-	  <input type="text" id="run_name" >
-	</div>
-	<label class="control-label" for="saveGeneSig"></label>
-	<div class="control-group">
-	  <a href="#saveGeneSig" class="saveGeneSig btn btn-primary" >Submit</a>
-	</div>
-	
+	     <label class="control-label" for="run_name">New Query Name</label>
+	     <div class="control-group">
+	       <input type="text" id="run_name" >
+	     </div>
+	     <label class="control-label" for="saveGeneSig"></label>
+	     <div class="control-group">
+	       <a href="#saveGeneSig" class="saveGeneSig btn btn-primary" >Submit</a>
+	     </div>	
       </form>
     </script>
-    <script type="text/template" id="tpl-reset-password">
-      <div>
-	
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Hello <%= username %>, Enter Your New Password</h2>
-	<input type="text" class="span2 input-block-level" id="password" placeholder="new password">
-
-        <button class="btn btn-large btn-primary" id="reset">Submit</button>
-      </form>
-
-      </div>
-      
-    </script>
+    
     <script type="text/template" id="tpl-navbar-no-login">
     </script>
     <!-- end no login template -->
