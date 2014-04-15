@@ -11,21 +11,20 @@ window.User = Backbone.Model.extend({
     myNewFlag: false,
     // have to override
     isNew: function() {
-	var ggg = 1;
-	return this.get("myNewFlag");
-	//return this.get("username") == null;
+	   return this.get("myNewFlag");
+	   //return this.get("username") == null;
     },
     resetPassword: function(success_function, failure_function) {
-	var self = this;
-	var ssss = JSON.stringify({ email: this.get('email') });
-	$.ajax({
-	    type: "POST",
-	    contentType:  "application/json; charset=utf-8",
-	    url: 'api/v2/PasswordTokens',
-	    data: JSON.stringify({ email: this.get('email') }),
-	    success: success_function,
-	    error: failure_function,
-	    dataType: 'json'
+	   var self = this;
+	   var ssss = JSON.stringify({ email: this.get('email') });
+	   $.ajax({
+	        type: "POST",
+	       contentType:  "application/json; charset=utf-8",
+	       url: 'api/v2/PasswordTokens',
+	       data: JSON.stringify({ email: this.get('email') }),
+	       success: success_function,
+	       error: failure_function,
+	       dataType: 'json'
 	});
 	
     }
@@ -56,10 +55,10 @@ window.JobRun = Backbone.Model.extend({
     
     defaults: {
         id: null,
-	creator: "",
+	   creator: "",
         creationDatetime: "",
         status: "",
-	jobType:"sesame-0.4"
+	   jobType:"sesame-0.4"
     }
 });
 window.JobRunCollection = Backbone.Collection.extend({
