@@ -61,22 +61,22 @@ window.JobRunListView = Backbone.View.extend({
         return this;
     },
     deleteJobRun:function(event){
-	var self = this;
-	var buttonId = event.target.id;
-	if (confirm("Are You Sure") == false){
-	    return false;
-	};
-	// get the ID from the right part of the button ID
-	var jrId = buttonId.split("_")[1];
-	var jr = this.model.get(jrId);
-	this.model.remove(jr);
-	jr.set('trashed',true);
-	var saveSuccess = function(){
-	    var row_id = '#job_run_row_' + jrId;  
-	    $(row_id).toggle('highlight');
-            return self;
-	}
-	jr.save({},{success:saveSuccess,headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
+		var self = this;
+		var buttonId = event.target.id;
+		if (confirm("Are You Sure") == false){
+	    	return false;
+		};
+		// get the ID from the right part of the button ID
+		var jrId = buttonId.split("_")[1];
+		var jr = this.model.get(jrId);
+		this.model.remove(jr);
+		jr.set('trashed',true);
+		var saveSuccess = function(){
+	    	var row_id = '#job_run_row_' + jrId;  
+	    	$(row_id).toggle('highlight');
+            	return self;
+		}
+		jr.save({},{success:saveSuccess,headers:{'Authorization':'HiveBasic ' + btoa(app.userToken) }});
 	
     },
     bulkDelete:function (){
@@ -206,53 +206,49 @@ window.UserView = Backbone.View.extend({
         return this;
     },events:{
         "click #saveNewUser":"saveNewUser",
-	'click #close': 'close',
-	'click #closeUp': 'close',
-	'newUser':'newUser'
+		'click #close': 'close',
+		'click #closeUp': 'close',
+		'newUser':'newUser'
 	
     },
     newUser:function(){
-	var eee = 12;
-	
     },
     resetPassword:function(){
-	this.model.set('email',$('#email').val());
-	this.model.resetPassword();
+		this.model.set('email',$('#email').val());
+		this.model.resetPassword();
     },
     show: function(){
-	$(document.body).append(this.render().el); 
+		$(document.body).append(this.render().el); 
     },
     saveNewUser:function(){
-	// check right away for matching password
-	if( $('#newPassword').val() != $('#newPasswordRetype').val()){
-	    $("#sign-up-message").html("<div class='alert alert-error'>Passwords do not match.</div>");
-	    return false;
-	};
-	this.model = new User();
-	var user = this.model;
-	var self = this;
-	var saveError =  function(model,xhr,opts){
+		// check right away for matching password
+		if( $('#newPassword').val() != $('#newPasswordRetype').val()){
+	    	$("#sign-up-message").html("<div class='alert alert-error'>Passwords do not match.</div>");
+	    	return false;
+		};
+		this.model = new User();
+		var user = this.model;
+		var self = this;
+		var saveError =  function(model,xhr,opts){
+	    	var errorMsg = new Object();
+	    	errorMsg.error_message = xhr.responseText;
+	    	$(document.body).append( $(self.el).html(self.error_template(errorMsg)));
 	   
-	    var errorMsg = new Object();
-	    errorMsg.error_message = xhr.responseText;
-	    $(document.body).append( $(self.el).html(self.error_template(errorMsg)));
-	   
-	};
-	var saveSuccess = function(model,resp,opts){
-	    model.set('myNewFlag',false);
-	    $(document.body).append( $(self.el).html(self.success_template(user.toJSON())));
-	    
-	};
-	this.model.set('username',$('#newUserName').val());
-	this.model.set('email',$('#newEmail').val());
-	this.model.set('password',$('#newPassword').val());
-	// make sure that the newFlag is set to true
-	// we can set it to false after saving
-	this.model.set('myNewFlag',true);
-	// no need for a token on a new user save
-	this.model.save({},{success:saveSuccess,error:saveError});
-	// TODO - set the top bar to the current username and make sure its sent with the
-	// subsequent parameters
+		};
+		var saveSuccess = function(model,resp,opts){
+	    	model.set('myNewFlag',false);
+	    	$(document.body).append( $(self.el).html(self.success_template(user.toJSON())));
+		};
+		this.model.set('username',$('#newUserName').val());
+		this.model.set('email',$('#newEmail').val());
+		this.model.set('password',$('#newPassword').val());
+		// make sure that the newFlag is set to true
+		// we can set it to false after saving
+		this.model.set('myNewFlag',true);
+		// no need for a token on a new user save
+		this.model.save({},{success:saveSuccess,error:saveError});
+		// TODO - set the top bar to the current username and make sure its sent with the
+		// subsequent parameters
     },
     close: function() {
         this.remove();
@@ -297,29 +293,6 @@ window.SendResetView = Backbone.View.extend({
 	this.model.resetPassword(resetSuccess,resetFailure);
     }
 });
-
-window.ResetPasswordView = Backbone.View.extend({
-    template: _.template($('#tpl-reset-password').html()),
-    events:{
-	"click #reset":"reset",
-    },
-    render:function(){
-	var modelJson = this.model.toJSON();
-	var ccc = this.model.username;
-	var templateHtml = this.template(modelJson); 
-	$(this.el).html(templateHtml);
-        return this;
-    },
-    reset:function(){
-	// kinda have to trick backbone in to believing
-	// us that this is an existing user so it does a put
-	// the API ignores the id field so safe to put garbage
-	app.user.set('id',76);
-	app.user.set('password',$('#password').val());
-	app.user.save();
-    }
-})
-
 
 window.JobRunView = Backbone.View.extend({
    
@@ -376,7 +349,7 @@ window.GeneSigView = Backbone.View.extend({
 	};
 	var self = this;
 	// set the name
-        this.model.set({name:$('#run_name').val()});
+    this.model.set({name:$('#run_name').val()});
 	var ug = this.model.get('upGenes');
 	ug.set('fileData',$('#upGenes').val());
 	var dg = this.model.get('downGenes');
