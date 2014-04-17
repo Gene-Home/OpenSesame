@@ -8,6 +8,7 @@
 
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/css/jquery.dataTables.css" rel="stylesheet">
     <link href="assets/css/docs_lite.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -82,15 +83,15 @@
     <!-- Series Result Table Head -->
     <script type="text/template" id="tpl-seriesResult-table">
       <h3>Results for:</h3><h2> <%= title %></h2>
-      <table class="table table-striped" border='1'>
+      <table id="series-result-table" class="display" border='1'>
 	<thead>
 	  <tr>
-	    <th><a href="#bySeriesID" id="bySeriesID">Series ID </a></th>
-	    <th><a href="#bySeriesTitle" id="bySeriesTitle">Series Title</a></th>
-	    <th><a href="#byKSp" id="byKSp">KS p</a></th>
-	    <th><a href="#byKSq" id="byKSq">KS q</a></th>
-	    <th><a href="#byFisherp" id="byFisherp">Fisher p</a></th>
-	    <th><a href="#byFisherq" id="byFisherq">Fisher q</a></th>
+	    <th>Series ID </th>
+	    <th>Series Title</th>
+	    <th>KS p</th>
+	    <th>KS q</th>
+	    <th>Fisher p</th>
+	    <th>Fisher q</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -375,7 +376,7 @@
     <script src="lib/backbone.js"></script>
     <script src="lib/bootstrap.js"></script>
     <script src="lib/jquery.cookie.js"></script>
-   
+	<script src="lib/jquery.dataTables.js"></script>   
     <script src="js/utils.js"></script>
     <script src="js/models.js"></script>
     <script src="js/views.js"></script>

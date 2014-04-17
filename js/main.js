@@ -37,7 +37,6 @@ var AppRouter = Backbone.Router.extend({
 	    	}else{
 				this.showHomePublic();
 	    	}
-	    // let him to the resttingPW page
 		}else {
 	    	this.showHomePublic();
 		}
@@ -88,6 +87,7 @@ var AppRouter = Backbone.Router.extend({
 	    	var srel = self.seriesResultListView.render().el;
         	$('#main-area').html(srel);
 	    	$('#main-area').show();
+			$("#series-result-table").dataTable({"sScrollY": "500px","bPaginate": false});
 		});
 		return false;
     },
