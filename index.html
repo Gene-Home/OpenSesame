@@ -128,9 +128,9 @@
 	    <th>Started</th>
 	    <th>Status</th>
 	    <th>Heat Map (PDF)</th>
-	    <th>Series Results (csv)</th>
-	    <th>Signature (.txt)</th>
-	    <th>Validation (.txt) </th>
+	    <th width="15%">Series Results (csv)</th>
+	    <th width="10%">Signature (.txt)</th>
+	    <th width="10%">Validation (.txt) </th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -152,26 +152,26 @@
 	</td>
         <td>
 	  <% if (outputs.tableTSV) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.tableTSV[0] %>/sesame_outputs.csv?token=<%= outputTokens.tableTSV[0] %>'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.tableTSV[0] %>/sesame_outputs.csv?token=<%= outputTokens.tableTSV[0] %>'>Download</a>
 	<% }else{ %>
 	no file
-	<% } %>
+	<% } %><br />
 	<% if (outputs.tableJSON) { %>
-	<a href='#seriesResults/<%= outputs.tableJSON[0] %>/<%= inputs["name"]%>' >view</a>
+	<a href='#seriesResults/<%= outputs.tableJSON[0] %>/<%= inputs["name"]%>' >View as Table</a>
 	<% } else { %>
 	no series data
 	<% } %>
 	</td>
         <td>
 	  <% if (outputs.signature) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.signature[0] %>/sesame_signature.txt?token=<%= outputTokens.signature[0] %>'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.signature[0] %>/sesame_signature.txt?token=<%= outputTokens.signature[0] %>'>Download</a>
 	<% }else{ %>
 	no file
 	<% } %>
 	</td>
 	<td>
 	  <% if (outputs.validation) { %>
-           <a href='api/v2/WorkFileContents/<%= outputs.validation[0] %>/sesame_validation.txt?token=<%= outputTokens.validation[0] %>'>link</a>
+           <a href='api/v2/WorkFileContents/<%= outputs.validation[0] %>/sesame_validation.txt?token=<%= outputTokens.validation[0] %>'>Download</a>
 	<% }else{ %>
 	no file
 	<% } %>
@@ -330,18 +330,16 @@
       <h2>Create a New Query</h2>
       <p>Please enter the identifiers in your upregulated and downregulated gene sets and press Submit. Identifiers can be gene symbols, Affymetrix probeset IDs, Entrez Gene IDs, or RefSeq IDs. The identifiers must all be of the same type.</p>
       <form class="form-horizontal">
-      
-	     <label class="control-label" for="upGenes">Up-Regulated Gene Identifiers:</label>
 	     <div class="control-group">
+	     	<h3>Up-Regulated Gene Identifiers:</h3>
 	       <textarea id="upGenes" rows="10" class="span3"></textarea>
 	     </div>
-	     <label class="control-label" for="downGenes">Down-Regulated Gene Identifiers:</label>
 	     <div class="control-group">
+			<h3>Down-Regulated Gene Identifiers:</h3>
 	       <textarea id="downGenes" rows="10" class="span3"></textarea>
 	     </div>
-      
-	     <label class="control-label" for="run_name">New Query Name</label>
 	     <div class="control-group">
+	       <h3>New Query Name</h3>
 	       <input type="text" id="run_name" >
 	     </div>
 	     <label class="control-label" for="saveGeneSig"></label>

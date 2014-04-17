@@ -63,7 +63,7 @@ window.JobRunListView = Backbone.View.extend({
     deleteJobRun:function(event){
 		var self = this;
 		var buttonId = event.target.id;
-		if (confirm("Are You Sure") == false){
+		if (confirm("Are you sure you want to delete this query? This action cannot be undone") == false){
 	    	return false;
 		};
 		// get the ID from the right part of the button ID
