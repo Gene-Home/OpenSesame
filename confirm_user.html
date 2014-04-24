@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Reset Password</title>
+
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/css/docs_lite.css" rel="stylesheet">
+     <style type="text/css">
+      body {
+        padding-top: 80px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+    </style>
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+      <div id="navbar">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index#">open SESAME</a>
+      
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+        <li><a href="index#newUser">Signup</a></li>
+        <li><a href="index#login">Login</a></li>
+        <li><a href="index#sendReset" id="sendReset">Forgot Password</a></li>
+              </ul>
+         
+            </div><!--/.nav-collapse -->
+      </div><!-- end navbar div -->
+        </div>
+      </div>
+    </div>
+     <div class="container">
+        <h3 id="username"></h3>
+        <div id="result_message"></div>
+      
+
+    </div> <!-- /container -->
+    <script src="lib/jquery.js"></script>
+    <script src="lib/purl.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/models.js"></script>
+
+    <script>
+        $( document ).ready(function(){
+            saveuser();
+        })
+        var save_success = function(){
+            var rm = $("#result_message");
+            rm.addClass("alert alert-success");
+            rm.text("Your account is not active, you may now login");
+        }
+        var save_failure = function(){
+            var rm = $("#result_message");
+            rm.addClass("alert alert-error");
+            rm.text("Could Not Activate User, Please Contact Administrator");
+        }
+        /**
+        * Save the user with the confirmed field set to true. 
+        * This can only be done to a non-confirmed user with
+        * a valid token
+        */
+        function saveuser(){
+            
+            var user = new User();
+            var username = $.url().param('username');
+            var token = $.url().param('token');
+            user.set("username",username);
+            user.set("token",token);
+            // kinda have to trick backbone in to believing
+            // us that this is an existing user so it does a PUT
+            // the API ignores the id field so safe to put garbage
+            user.set('id',76);
+            user.set('confirmed',true);
+            user.save({},{success: save_success,error: save_failure});
+        }   
+    </script>
+</body>
+    
+</html>
