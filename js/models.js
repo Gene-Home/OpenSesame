@@ -25,8 +25,18 @@ window.User = Backbone.Model.extend({
 	       success: success_function,
 	       error: failure_function,
 	       dataType: 'json'
-	});
-	
+	   });
+    },
+    confirmUser: function(success_function,failure_function){
+        $.ajax({
+            type: "POST",
+           contentType:  "application/json; charset=utf-8",
+           url: 'api/v2/ConfirmUser',
+           data: JSON.stringify({ email: this.get('email') }),
+           success: success_function,
+           error: failure_function,
+           dataType: 'json'
+       });  
     }
 });
 window.SeriesResult = Backbone.Model.extend({
