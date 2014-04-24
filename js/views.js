@@ -222,10 +222,21 @@ window.UserView = Backbone.View.extend({
     },
     saveNewUser:function(){
 		// check right away for matching password
-		if( $('#newPassword').val() != $('#newPasswordRetype').val()){
+		var newPass = $('#newPassword').val();
+		var uname = $('#newUserName').val();
+		if(  newPass != $('#newPasswordRetype').val()){
 	    	$("#sign-up-message").html("<div class='alert alert-error'>Passwords do not match.</div>");
 	    	return false;
 		};
+		var ttt = /^[A-Za-z0-9_]{10,30}$/
+		var m= ttt.test(uname)
+		if(m){
+			//alert('good')
+		}else{
+			$("#sign-up-message").html("<div class='alert alert-error'>Bad User Name Format, must be 10-30 characters, alphanumeric and underscore only</div>");
+	    	return false;
+		}
+
 		this.model = new User();
 		var user = this.model;
 		var self = this;
@@ -237,7 +248,10 @@ window.UserView = Backbone.View.extend({
 		};
 		var saveSuccess = function(model,resp,opts){
 	    	model.set('myNewFlag',false);
-	    	$(document.body).append( $(self.el).html(self.success_template(user.toJSON())));
+	    	model.confirmUser(function(){
+	    		$(document.body).append( $(self.el).html(self.success_template(user.toJSON())));
+	    	},function(){alert('could not send confirmation email, please try later')}
+	    	);
 		};
 		this.model.set('username',$('#newUserName').val());
 		this.model.set('email',$('#newEmail').val());
@@ -246,9 +260,8 @@ window.UserView = Backbone.View.extend({
 		// we can set it to false after saving
 		this.model.set('myNewFlag',true);
 		// no need for a token on a new user save
+		$('#sign-up-body').html(app.progressTemplate);
 		this.model.save({},{success:saveSuccess,error:saveError});
-		// TODO - set the top bar to the current username and make sure its sent with the
-		// subsequent parameters
     },
     close: function() {
         this.remove();
