@@ -1,6 +1,6 @@
 // Router
 var AppRouter = Backbone.Router.extend({
-    JOB_TYPE: 'sesame-0.4',
+    JOB_TYPE: 'opensesame-2.1',
     user: new User(),
     userToken :'',
     progressTemplate: _.template($('#tpl-progress').html()),

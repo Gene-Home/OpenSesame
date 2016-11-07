@@ -1,5 +1,5 @@
 {
-"name": "sesame-0.7",
+"name": "sesame-2.0",
 "inputs": {
 "name": {
 "inputType": "string",
@@ -65,8 +65,8 @@
 "trashed": false,
 "public": true,
 "helperFiles": [
-"step1.R",
+"opensesame2.step1.R",
 "to_json_sesame.py",
-"step2.R"
+"opensesame2.step2.R"
 ]
 }
